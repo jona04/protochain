@@ -1,0 +1,61 @@
+# Dependências
+node_modules/
+
+# Build / saída
+dist/
+build/
+lib/
+out/
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testes e cobertura
+coverage/
+.nyc_output/
+.jest/
+test-results/
+.vitest/
+.playwright/
+.playwright-report/
+
+# Caches
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+.stylelintcache
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# SO / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Temporários
+tmp/
+temp/
+.tmp/
+
+# (Opcional por framework – descomente se usar)
+# .next/
+# .next/cache/
+# .vercel/
