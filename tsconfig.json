@@ -7,9 +7,12 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "NodeNext",
-    "target": "ES2022",
-    "types": [],
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [
+      "jest",
+      "node"
+    ],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -41,8 +44,8 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["src"],
-  "exclude": ["__test__", "jest.config.ts"],
+  "include": ["./src/"],
+  "exclude": ["__test__", "jestss.config.ts"],
   "ts-node": {
     "transpileOnly": true
   }
