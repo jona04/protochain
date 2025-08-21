@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "tsx watch ./src/blockchain.ts",
+    "dev": "tsx watch ./src/lib/blockchain.ts",
     "compile": "npx tsc",
     "start": "node ./dist/blockchain.js"
   },

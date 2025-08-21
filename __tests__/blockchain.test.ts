@@ -1,9 +1,10 @@
+import Blockchain from '../src/lib/blockchain'
 
+describe("Blockchain tests", () => {
 
-describe("Teste", () => {
-
-    it('sould be true', () => {
-        console.log("ok")
+    test('Should has genesis blocks', () =>{
+        const blockchain = new Blockchain();
+        expect(blockchain.blocks.length).toEqual(1);
     })
 
 })

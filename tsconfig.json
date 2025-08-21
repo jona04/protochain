@@ -45,7 +45,7 @@
     "skipLibCheck": true
   },
   "include": ["./src/"],
-  "exclude": ["__test__", "jestss.config.ts"],
+  "exclude": ["__test__", "jest.config.ts"],
   "ts-node": {
     "transpileOnly": true
   }
