@@ -11,7 +11,8 @@
     "target": "esnext",
     "types": [
       "jest",
-      "node"
+      "node",
+      
     ],
     // For nodejs:
     // "lib": ["esnext"],
