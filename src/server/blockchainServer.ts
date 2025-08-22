@@ -1,14 +1,21 @@
-import express, { json } from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express, { json, type NextFunction, type Request, type Response } from 'express';
 import morgan from 'morgan';
 import Blockchain from '../lib/blockchain.js';
 import Block from '../lib/block.js';
 
-const PORT: number = 3000;
+/* c8 ignore next */
+const PORT: number = parseInt(`${process.env.BLOCKCHAIN_PORT || 3000}`);
+/* c8 ignore stop */
 
 const app = express();
 
+/* c8 ignore start */
 if(process.argv.includes("--run"))
     app.use(morgan('tiny'));
+/* c8 ignore stop */
 
 app.use(express.json());
 
@@ -20,6 +27,10 @@ app.get('/status', (req, res, next) => {
         isValid: blockchain.isValid(),
         lastBlock: blockchain.getLastBlock()
     })
+})
+
+app.get('/blocks/next', (req: Request, res: Response, next: NextFunction) => {
+    res.json(blockchain.getNextBlock());
 })
 
 app.get('/blocks/:indexOrHash', (req, res, next) => {
@@ -50,8 +61,10 @@ app.post('/blocks', (req, res, next) => {
     }
 })
 
+/* c8 ignore start */
 if(process.argv.includes("--run"))
     app.listen(PORT, ()=> {console.log(`Blockchain is running at port ${PORT}`)})
+/* c8 ignore stop */
 
 export {
     app

@@ -64,4 +64,20 @@ describe("Teste", () => {
         const validation = myBlock.isValid(genesis.hash, genesis.index, exampleDifficulty)
         expect(validation.success).toBeFalsy()
     })
+
+    it('Should create from blockinfo', () => {
+        let myBlockFromBlockInfo = Block.fromBlockInfo({
+            data: "Block 2",
+            difficulty: 0,
+            feePerTx: 1,
+            index: 1,
+            maxDifficulty:10,
+            previousHash: genesis.hash
+        });
+        let myBlock = new Block(myBlockFromBlockInfo);
+        myBlock.mine(0,"123");
+        const validation = myBlock.isValid(genesis.hash, genesis.index, exampleDifficulty)
+
+        expect(validation.success).toBeTruthy()
+    })
 })

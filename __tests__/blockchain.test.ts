@@ -79,4 +79,11 @@ describe("Blockchain tests", () => {
         (bc as any).blocks = [] as any;
         expect(() => bc.getLastBlock()).toThrow('Empty blockchain');
     });
+
+    test('Should get getNextBlockInfo', () =>{
+        const blockchain = new Blockchain();
+        const info = blockchain.getNextBlock();
+        expect(info.index).toEqual(1);
+    })
+    
 })
