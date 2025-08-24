@@ -1,7 +1,9 @@
 import Blockchain from '../src/lib/blockchain';
 import Block from '../src/lib/block';
+import Transaction from '../src/lib/transaction';
 
 jest.mock('../src/lib/block');
+jest.mock('../src/lib/transaction');
 
 describe("Blockchain tests", () => {
 
@@ -18,10 +20,14 @@ describe("Blockchain tests", () => {
     test('Should be valid (two blocks)', () =>{
         const blockchain = new Blockchain();
         blockchain.addBlock(new Block(
-            {index: 1, previousHash: blockchain.getLastBlock().hash, data:"Block 2"} as Block
+            {index: 1, previousHash: blockchain.getLastBlock().hash, transactions: [new Transaction({
+                            data: "Block 2"
+                        } as Transaction)]} as Block
         ));
         blockchain.addBlock(new Block(
-            {index: 2, previousHash: blockchain.getLastBlock().hash, data:"Block 3"} as Block
+            {index: 2, previousHash: blockchain.getLastBlock().hash, transactions: [new Transaction({
+                            data: "Block 3"
+                        } as Transaction)]} as Block
         ));
         expect(blockchain.isValid().success).toEqual(true);
     })
@@ -31,7 +37,9 @@ describe("Blockchain tests", () => {
         const last = blockchain.getLastBlock();
         
         const b2 = new Block(
-            {index: last.index + 1, previousHash: last.hash, data:"Block 2"} as Block
+            {index: last.index + 1, previousHash: last.hash, transactions: [new Transaction({
+                            data: "Block 2"
+                        } as Transaction)]} as Block
         );
         blockchain.addBlock(b2);
         
@@ -43,7 +51,9 @@ describe("Blockchain tests", () => {
     test('Should NOT be valid', () =>{
         const blockchain = new Blockchain();
         blockchain.addBlock(new Block(
-            {index: 1, previousHash: blockchain.getLastBlock().hash, data:"Block 2"} as Block
+            {index: 1, previousHash: blockchain.getLastBlock().hash, transactions: [new Transaction({
+                            data: "Block 2"
+                        } as Transaction)]} as Block
         ));
         const block = blockchain.getLastBlock();
         block.index = -1;
@@ -53,7 +63,9 @@ describe("Blockchain tests", () => {
     test('Should add block', () =>{
         const blockchain = new Blockchain();
         blockchain.addBlock(new Block(
-            {index: 1, previousHash: blockchain.getLastBlock().hash, data:"Block 2"} as Block
+            {index: 1, previousHash: blockchain.getLastBlock().hash, transactions: [new Transaction({
+                            data: "Block 2"
+                        } as Transaction)]} as Block
         ));
         expect(blockchain.isValid().success).toEqual(true);
     })
@@ -61,7 +73,9 @@ describe("Blockchain tests", () => {
     test('Should NOT add block', () =>{
         const blockchain = new Blockchain();
         const block = new Block(
-            {index: -1, previousHash: blockchain.getLastBlock().hash, data:"Block 2"} as Block
+            {index: -1, previousHash: blockchain.getLastBlock().hash, transactions: [new Transaction({
+                            data: "Block 2"
+                        } as Transaction)]} as Block
         );
         const result = blockchain.addBlock(block);
         expect(result.success).toEqual(false);
