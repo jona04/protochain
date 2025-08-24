@@ -3,6 +3,7 @@ import Validation from "../validation.js";
 import type BlockInfo from "../blockInfo.js";
 import Transaction from "../transaction.js";
 import TransactionType from "../transaction_type.js";
+import type TransactionSearch from "../transactionSearch.js";
 
 /**
  * Mocked Blockchain class
@@ -11,11 +12,14 @@ import TransactionType from "../transaction_type.js";
 export default class Blockchain {
     blocks: [Block, ...Block[]];
     nextIndex: number = 0;
+    mempool: Transaction[];
 
     /**
      * Creates a new mock blockchain
      */
     constructor(){
+        this.mempool = [];
+
         this.blocks = [new Block(
             {
                 index: 0, 
@@ -46,9 +50,43 @@ export default class Blockchain {
         return new Validation();
     }
 
+    addTransaction(transaction: Transaction) : Validation {
+            const validation = transaction.isValid();
+            if(!validation.success)
+                return new Validation(false, "Invalid tx: "+validation.message);
+            
+            if(this.blocks.some(b=>b.transactions.some(tx=>tx.hash === transaction.hash)))
+                return new Validation(false, "Duplicated tx in blockchain.");
+    
+            if(this.mempool.some(tx=>tx.hash === transaction.hash))
+                return new Validation(false, "Duplicated tx in mempool.")
+    
+            this.mempool.push(transaction);
+            return new Validation(true, transaction.hash);
+        }
+    
+        
     getBlock(hash: string): Block | undefined {
         return this.blocks.find(b => b.hash === hash);
     }
+
+    getTransaction(hash: string): TransactionSearch {
+            const mempoolIndex =  this.mempool.findIndex(b => b.hash === hash);
+            if(mempoolIndex !== -1)
+                return {
+                    mempoolIndex,
+                    transaction: this.mempool[mempoolIndex]
+                } as TransactionSearch
+    
+            const blockIndex = this.blocks.findIndex(b=>b.transactions.some(tx=>tx.hash === hash));
+            if(blockIndex !== -1)
+                return {
+                    blockIndex,
+                    transaction: this.blocks[blockIndex]?.transactions.find(tx=>tx.hash === hash)
+                } as TransactionSearch;
+            
+            return { blockIndex: -1, mempoolIndex: -1} as TransactionSearch
+        }
 
     isValid(): Validation {
         return new Validation();

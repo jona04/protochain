@@ -2,6 +2,7 @@ import Block from "./block.js";
 import type BlockInfo from "./blockInfo.js";
 import Transaction from "./transaction.js";
 import TransactionType from "./transaction_type.js";
+import type TransactionSearch from "./transactionSearch.js";
 import Validation from "./validation.js";
 
 /**
@@ -82,6 +83,24 @@ export default class Blockchain {
 
     getBlock(hash: string): Block | undefined {
         return this.blocks.find(b => b.hash === hash);
+    }
+
+    getTransaction(hash: string): TransactionSearch {
+        const mempoolIndex =  this.mempool.findIndex(b => b.hash === hash);
+        if(mempoolIndex !== -1)
+            return {
+                mempoolIndex,
+                transaction: this.mempool[mempoolIndex]
+            } as TransactionSearch
+
+        const blockIndex = this.blocks.findIndex(b=>b.transactions.some(tx=>tx.hash === hash));
+        if(blockIndex !== -1)
+            return {
+                blockIndex,
+                transaction: this.blocks[blockIndex]?.transactions.find(tx=>tx.hash === hash)
+            } as TransactionSearch;
+        
+        return { blockIndex: -1, mempoolIndex: -1} as TransactionSearch
     }
 
     isValid(): Validation {
