@@ -4,7 +4,6 @@ node_modules/
 # Build / saída
 dist/
 build/
-lib/
 out/
 
 # TypeScript
