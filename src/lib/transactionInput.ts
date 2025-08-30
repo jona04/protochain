@@ -30,9 +30,9 @@ export default class TransactionInput {
      * @param privateKey The 'from' private key
      */
     sign(privateKey: string): void {
-        this.signature = ECPair.fromPrivateKey(Buffer.from(privateKey, "hex"))
-        .sign(Buffer.from(this.getHash(), "hex"))
-        .toString("hex");
+        const msg32 = Buffer.from(this.getHash(), "hex");             // 32 bytes
+        const sigU8 = ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).sign(msg32);
+        this.signature = Buffer.from(sigU8).toString("hex");           
     }
 
     /**
@@ -51,6 +51,6 @@ export default class TransactionInput {
         const isValid = ECPair.fromPublicKey(Buffer.from(this.fromAddress, "hex"))
             .verify(hash, Buffer.from(this.signature, "hex"));
 
-        return isValid ? new Validation : new Validation(false, "Invalid transaction signature.");
+        return isValid ? new Validation() : new Validation(false, "Invalid transaction signature.");
     }
 }

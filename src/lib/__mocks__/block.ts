@@ -1,6 +1,5 @@
-import CryptoJS from 'crypto-js';
 import Validation from '../validation.js';
-import type Transaction from '../transaction.js';
+import type Transaction from './transaction.js';
 
 /**
  * Mocked block class

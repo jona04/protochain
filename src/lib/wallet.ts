@@ -21,7 +21,7 @@ export default class Wallet {
             if(wifOrPrivateKey.length===64)
                 keys = ECPair.fromPrivateKey(Buffer.from(wifOrPrivateKey, "hex"));
             else
-                keys = ECPair.fromIF(wifOrPrivateKey);
+                keys = ECPair.fromWIF(wifOrPrivateKey);
         }else{
             keys = ECPair.makeRandom();
         }

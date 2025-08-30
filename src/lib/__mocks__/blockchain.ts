@@ -1,9 +1,10 @@
 import Block from "./block.js";
 import Validation from "../validation.js";
 import type BlockInfo from "../blockInfo.js";
-import Transaction from "../transaction.js";
+import Transaction from "./transaction.js";
 import TransactionType from "../transaction_type.js";
 import type TransactionSearch from "../transactionSearch.js";
+import TransactionInput from "./transactionInput.js";
 
 /**
  * Mocked Blockchain class
@@ -25,7 +26,7 @@ export default class Blockchain {
                 index: 0, 
                 hash: "abc", 
                 previousHash: "", 
-                transactions: [new Transaction({data:"tx1", type:TransactionType.FEE} as Transaction)], 
+                transactions: [new Transaction({txInput: new TransactionInput(), type:TransactionType.FEE} as Transaction)], 
                 timestamp: Date.now()
             } as Block)
         ];
@@ -55,9 +56,6 @@ export default class Blockchain {
             if(!validation.success)
                 return new Validation(false, "Invalid tx: "+validation.message);
             
-            if(this.blocks.some(b=>b.transactions.some(tx=>tx.hash === transaction.hash)))
-                return new Validation(false, "Duplicated tx in blockchain.");
-    
             if(this.mempool.some(tx=>tx.hash === transaction.hash))
                 return new Validation(false, "Duplicated tx in mempool.")
     
@@ -104,7 +102,7 @@ export default class Blockchain {
         const maxDifficulty = 5;
         return {
             transactions: [new Transaction({
-                data: "Block"
+                txInput: new TransactionInput(),
             } as Transaction)],
             difficulty,
             previousHash,

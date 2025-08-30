@@ -2,6 +2,7 @@ import Block from "./block.js";
 import type BlockInfo from "./blockInfo.js";
 import Transaction from "./transaction.js";
 import TransactionType from "./transaction_type.js";
+import TransactionInput from "./transactionInput.js";
 import type TransactionSearch from "./transactionSearch.js";
 import Validation from "./validation.js";
 
@@ -31,7 +32,7 @@ export default class Blockchain {
                     new Transaction(
                         {
                             type: TransactionType.FEE,
-                            data: new Date().toString()
+                            txInput: new TransactionInput
                         } as Transaction)]
             } as Block)];
         this.nextIndex++;
